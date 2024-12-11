@@ -1,0 +1,11 @@
+black
+fastapi
+isort
+langchain
+langchain_community
+langgraph
+llama_index
+openai
+pytest
+uvicorn
+tavily-python
