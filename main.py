@@ -4,7 +4,7 @@ from fastapi import FastAPI, Request
 from src.api import routers as routers_dict
 
 app = FastAPI(
-    title = "Summarization API",
+    title = "Research API",
     version = "1.0.0",
     docs_url = '/docs',
     #root_path = "summarization"
