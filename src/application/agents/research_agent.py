@@ -11,17 +11,27 @@ from src.application.prompts.research_prompts import query_writer_instructions, 
 
 class ResearchAgent:        
     def __init__(self, model):
-        # section_builder = StateGraph(SectionState, output = SectionOutputState)
-        # section_builder.add_node("generate_queries", self.generate_queries)
-
-        # section_builder.add_edge(START, "generate_queries")
-        # section_builder.add_edge("generate_queries", END)
-
+        section_builder = StateGraph(SectionState, output = SectionOutputState)
+        section_builder.add_node("generate_queries", self.generate_queries)
+        section_builder.add_node("search_web", self.search_web)
+        section_builder.add_node("write_web", self.write_section)
+        section_builder.add_edge(START, "generate_queries")
+        section_builder.add_edge("generate_queries", "search_web")
+        section_builder.add_edge("search_web","write_section")
+        section_builder.add_edge("write_section",END)
 
         builder = StateGraph(ReportState, input=ReportStateInput, output=ReportStateOutput, config_schema=configuration.Configuration)
         builder.add_node("generate_report_plan", self.generate_report_plan)
+        builder.add_node("build_section_with_web_research", section_builder.compile())
+        builder.add_node("gather_completed_sections", self.gather_completed_sections)
+        builder.add_node("write_final_sections", self.write_final_sections)
+        builder.add_node("compile_final_report", self.compile_final_report)
         builder.add_edge(START, "generate_report_plan")
-        builder.add_edge("generate_report_plan",END)
+        builder.add_conditional_edges("generate_report_plan", self.initiate_section_writing, ["build_section_with_web_research"])
+        builder.add_edge("build_section_with_web_research", "gather_completed_sections")
+        builder.add_conditional_edges("gather_completed_sections", self.initiate_final_section_writing, ["write_final_sections"])
+        builder.add_edge("write_final_sections", "compile_final_report")
+        builder.add_edge("compile_final_report",END)
         self.graph = builder.compile() 
         self.llm_model = model
 
