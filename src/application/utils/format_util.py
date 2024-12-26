@@ -2,7 +2,8 @@ from src.application.models.section_models import Section
 
 
 class FormatUtil:
-    def deduplicate_and_format_sources(search_response, max_tokens_per_source, include_raw_content=True):
+    @classmethod
+    def deduplicate_and_format_sources(cls,search_response, max_tokens_per_source, include_raw_content=True):
         """
         Takes either a single search response or list of responses from Tavily API and formats them.
         Limits the raw_content to approximately max_tokens_per_source.
@@ -55,7 +56,8 @@ class FormatUtil:
                     
         return formatted_text.strip()
 
-    def format_sections(sections: list[Section]) -> str:
+    @classmethod
+    def format_sections(cls,sections: list[Section]) -> str:
         """ Format a list of sections into a string """
         formatted_str = ""
         for idx, section in enumerate(sections, 1):

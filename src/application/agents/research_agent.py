@@ -2,8 +2,8 @@ from langgraph.graph import StateGraph, START, END
 from langchain_core.runnables import RunnableConfig
 from langchain_core.messages import HumanMessage, SystemMessage
 
-from src.application.utils import format_util
-from src.application.services import tavily_service
+from src.application.utils.format_util import FormatUtil
+from src.application.services.tavily_service import TavilyService
 from src.application.models.report_models import ReportState, ReportStateInput, ReportStateOutput
 from src.application.config import configuration
 from src.application.models.section_models import Queries, SectionOutputState, SectionState, Sections
@@ -25,9 +25,7 @@ class ResearchAgent:
         self.graph = builder.compile() 
         self.llm_model = model
 
-    def generate_report_plan(self, state: ReportState, config: RunnableConfig):
-        test = ReportStateOutput(final_report = "final")
-        return test
+    async def generate_report_plan(self, state: ReportState, config: RunnableConfig):
         topic = state["topic"]
 
         configurable = configuration.Configuration.from_runnable_config(config)
@@ -55,13 +53,22 @@ class ResearchAgent:
         query_list = [query.search_query for query in results.queries]
 
         # Search Web
-        search_docs = tavily_service.tavily_search_async(query_list, tavily_topic, tavily_days)
+        tavily_search = TavilyService()
+        search_docs = await tavily_search.tavily_search_async(
+            search_queries=query_list, 
+            tavily_topic=tavily_topic,
+            tavily_days= tavily_days)
+
 
         # Deduplicate and format sources
-        source_str = format_util.deduplicate_and_format_sources(search_docs, max_tokens_per_source=1000, include_raw_content=False)
+        format_util = FormatUtil()
+        source_str = format_util.deduplicate_and_format_sources(
+            search_response=search_docs, 
+            max_tokens_per_source=1000, 
+            include_raw_content=False)
 
         # Format system instructions
-        system_instructions_sections = report_planner_instructions.format(topic=topic, report_ornanization=report_structure, context=source_str)
+        system_instructions_sections = report_planner_instructions.format(topic=topic, report_organization=report_structure, context=source_str)
 
         # Generate sections
         structured_llm = self.llm_model.with_structured_output(Sections)

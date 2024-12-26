@@ -10,8 +10,8 @@ router = APIRouter(
 )
 
 @router.post("/research-topic")
-def research_topic(request: ResearchRequest):
-    data = ResearchService.research(request)
+async def research_topic(request: ResearchRequest):
+    data = await ResearchService.research(request)
 
     logging.debug("Returning response data at controller level")
     return RestResponse(data=data, message="Document Summarized")

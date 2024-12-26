@@ -53,3 +53,20 @@ class TavilyService:
         search_docs = await asyncio.gather(*search_tasks)
 
         return search_docs
+    
+
+    @traceable
+    def tavily_search(self, query):
+        """ Search the web using the Tavily API.
+    
+        Args:
+            query (str): The search query to execute
+            
+        Returns:
+            dict: Tavily search response containing:
+                - results (list): List of search result dictionaries, each containing:
+                    - title (str): Title of the search result
+                    - url (str): URL of the search result
+                    - content (str): Snippet/summary of the content
+                    - raw_content (str): Full content of the page if available"""
+        return self.tavily_client.search(query,max_results=5, include_raw_content=True)
