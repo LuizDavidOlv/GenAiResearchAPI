@@ -2,7 +2,7 @@ import os
 from langgraph.graph import END, StateGraph
 from tavily import TavilyClient
 from langchain.schema import HumanMessage, SystemMessage
-from src.application.models.EssayWriterModels import AgentState, Queries
+from src.application.models.essay_models import AgentState, Queries
 from src.application.prompts.essay_writer_prompts import PLAN_PROMT, REFLECTION_PROMPT, RESEARCH_CRITIQUE_PROMPT, RESEARCH_PLAN_PROMPT, WRITER_PROMPT
 
 class EssayWriterAgent:
