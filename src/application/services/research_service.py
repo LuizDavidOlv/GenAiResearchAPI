@@ -9,9 +9,6 @@ class ResearchService:
     async def research(request: ResearchRequest):
         model = ChatOpenAI(model=request.chat_model, temperature=request.temp)
         agent = ResearchAgent(model)
-        # request_input = ReportState(topic=request.input_text) 
-        # section_request = Section({
-        #     "topic": request.input_text})
         result = await agent.graph.ainvoke({"topic": request.input_text})
         return result["final_report"]
     

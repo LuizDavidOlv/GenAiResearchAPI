@@ -18,6 +18,7 @@ pip-system-certs
 psycopg2-binary
 pydantic
 pytest
+pytest-asyncio
 python-dotenv
 PyJWT
 sqlalchemy
