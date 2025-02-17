@@ -1,6 +1,8 @@
 from typing_extensions  import List, TypedDict
 from pydantic import BaseModel, Field
 
+# General Data model for a section of the report
+# This model can be passed to an LLM and LLM can produce output that adheres to this model
 class Section(BaseModel):
     name: str = Field(
         description="Name for this section of the report.",
@@ -24,6 +26,11 @@ class SearchQuery(BaseModel):
     search_query: str = Field(None, description="Query for web search.")
 
 
+class Queries(BaseModel):
+    queries: List[SearchQuery] = Field(
+        description="List of search queries.",
+    )
+
 class SectionState(TypedDict):
     section: Section # Report section   
     search_queries: list[SearchQuery] # List of search queries
@@ -37,7 +44,3 @@ class SectionOutputState(TypedDict):
 class SearchQuery(BaseModel):
     search_query: str = Field(default=None, description="Query for web search.")
 
-class Queries(BaseModel):
-    queries: List[SearchQuery] = Field(
-        description="List of search queries.",
-    )
