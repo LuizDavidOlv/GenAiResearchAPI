@@ -1,13 +1,16 @@
 import logging
+
 from fastapi import APIRouter
+
 from src.api.v1.models.research_request import ResearchRequest
 from src.api.v1.models.rest_response import RestResponse
 from src.application.services.research_service import ResearchService
 
 router = APIRouter(
     prefix="/research",
-    tags = ["research"],
+    tags=["research"],
 )
+
 
 @router.post("/research-topic")
 async def research_topic(request: ResearchRequest):

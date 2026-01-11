@@ -37,7 +37,7 @@ class Temp:
 
         sections = json.loads(temp_json, object_hook=lambda d: SimpleNamespace(**d))
         return sections
-    
+
     def get_sections2():
         temp_json = """
             {
@@ -73,8 +73,6 @@ class Temp:
         sections = json.loads(temp_json, object_hook=lambda d: SimpleNamespace(**d))
         return sections
 
-
-    
     def get_queries():
         temp_json = """
             {
@@ -91,6 +89,7 @@ class Temp:
         queries = json.loads(temp_json, object_hook=lambda d: SimpleNamespace(**d))
 
         return queries
+
     def get_report_sections():
         temp_json = """
                         {
@@ -136,6 +135,8 @@ class Temp:
                     """
 
         # Convert the JSON string to a list of objects with dot notation
-        report_sections = json.loads(temp_json, object_hook=lambda d: SimpleNamespace(**d))
+        report_sections = json.loads(
+            temp_json, object_hook=lambda d: SimpleNamespace(**d)
+        )
 
         return report_sections

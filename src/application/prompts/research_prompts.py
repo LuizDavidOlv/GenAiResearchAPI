@@ -1,6 +1,6 @@
 # Prompt to generate a search query to help with planning the report outline
-#* In report planning it is benefitial to have a little bit of external information in the form of  web search
-report_planner_query_writer_instructions="""You are an expert technical writer, helping to plan a report. 
+# * In report planning it is benefitial to have a little bit of external information in the form of  web search
+report_planner_query_writer_instructions = """You are an expert technical writer, helping to plan a report. 
 
 The report will be focused on the following topic:
 
@@ -20,7 +20,7 @@ The query should:
 Make the query specific enough to find high-quality, relevant sources while covering the breadth needed for the report structure."""
 
 # Prompt generating the report outline
-report_planner_instructions="""You are an expert technical writer, helping to plan a report.
+report_planner_instructions = """You are an expert technical writer, helping to plan a report.
 
 Your goal is to generate the outline of the sections of the report. 
 
@@ -46,7 +46,7 @@ Now, generate the sections of the report. Each section should have the following
 Consider which sections require web research. For example, introduction and conclusion will not require research because they will distill information from other parts of the report."""
 
 # Query writer instructions
-query_writer_instructions="""Your goal is to generate targeted web search queries that will gather comprehensive information for writing a technical report section.
+query_writer_instructions = """Your goal is to generate targeted web search queries that will gather comprehensive information for writing a technical report section.
 
 Topic for this section:
 {section_topic}
@@ -116,7 +116,7 @@ Guidelines for writing:
 - No preamble prior to creating the section content
 - Sources cited at end"""
 
-final_section_writer_instructions="""You are an expert technical writer crafting a section that synthesizes information from the rest of the report.
+final_section_writer_instructions = """You are an expert technical writer crafting a section that synthesizes information from the rest of the report.
 
 Section to write: 
 {section_topic}

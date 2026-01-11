@@ -1,30 +1,34 @@
+# Force bash for Makefile recipes (needed for features like 'source'); 
+# without it, Make would use /bin/sh and these commands could fail.
 SHELL := /bin/bash
+# Resolve absolute path to the directory containing this Makefile; 
+# without it, ROOT_DIR references (e.g., in format target) would break when running from other locations.
 ROOT_DIR := $(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
-# $(MAKEFILE_LIST)
-# Special built in variable in make. Is contains the list of all Makefile names that haven been parsed up to this point. The first item in this list is typically the path to the current Makefile
 
-# $(firstword $(MAKEFILE_LIST))
-# Extracts the first item from the list of Makefile names
 
-# $(realpath $(firstword $(MAKEFILE_LIST)))
-# Resolves the absolute path of the Makefile, converting any relative paths to absolute paths
+# INSTALL DEPENDENCIES
+activate:
+	source .venv/bin/activate ;
 
-# $(shell dirname $(realpath $(firstowrd $(MAKEFILE_LIST))))
-# Runs a shell command and caputes its output
-# dirname is a Unix command that extracts the directory portion of a file path.
+install-dev:
+	uv init ; \
+	python3 -m venv .venv ; \
+	source .venv/bin/activate ; \
+	uv add -r requirements-dev.txt
 
-install:
-	pip install -r requirements.txt
-
+# FORMAT CODE
 format:
-	cd ${ROOT_DIR}/API; isort .; black .;
+	cd ${ROOT_DIR}/src; isort .; black .;
 	cd ${ROOT_DIR}/tests; isort .; black .;
 
+# RUN THE APPLICATION LOCALLY
 run:
-	python API/main.py
+	source .venv/bin/activate ; \
+	uvicorn main:app --port 8080 --reload
 
+# TEST
 test-unit:
-	pytest --verbose --color=yes tests/unit_tests
+	pytest --verbose --color=yes tests/unit
 
 test-coverage:
 	coverage run -m pytest --verbose --color=yes tests/unit

@@ -1,4 +1,3 @@
-
 class Temp2:
     def get_source_str():
         source_str = """

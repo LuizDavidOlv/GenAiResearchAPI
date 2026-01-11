@@ -1,9 +1,18 @@
 import os
+
+from langchain.schema import HumanMessage, SystemMessage
 from langgraph.graph import END, StateGraph
 from tavily import TavilyClient
-from langchain.schema import HumanMessage, SystemMessage
+
 from src.application.models.essay_models import AgentState, Queries
-from src.application.prompts.essay_writer_prompts import PLAN_PROMT, REFLECTION_PROMPT, RESEARCH_CRITIQUE_PROMPT, RESEARCH_PLAN_PROMPT, WRITER_PROMPT
+from src.application.prompts.essay_writer_prompts import (
+    PLAN_PROMT,
+    REFLECTION_PROMPT,
+    RESEARCH_CRITIQUE_PROMPT,
+    RESEARCH_PLAN_PROMPT,
+    WRITER_PROMPT,
+)
+
 
 class EssayWriterAgent:
     def __init__(self, model):
@@ -24,7 +33,7 @@ class EssayWriterAgent:
         self.graph = builder.compile()
         self.model = model
         self.tavily = TavilyClient(api_key=os.getenv("TAVILY_API_KEY"))
-    
+
     def plan_node(self, state: AgentState):
         task = state.get("task")
         if not task:

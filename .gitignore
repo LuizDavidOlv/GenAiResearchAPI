@@ -1,3 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
 
-**__pycache__**
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+*.egg
+
+# Virtual environments
 .env
+.venv
+env/
+venv/
+
+# Testing
+.coverage
+.pytest_cache/
+htmlcov/
+coverage.xml
+tests/integration/results/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+
+# Python version and dependency management
+.python-version
+uv.lock
+pyproject.toml
+
+# Logs
+*.log

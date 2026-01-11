@@ -1,12 +1,12 @@
-
 import asyncio
+
 from langsmith import traceable
-from tavily import TavilyClient, AsyncTavilyClient
+from tavily import AsyncTavilyClient, TavilyClient
 
 
 class TavilyService:
     def __init__(self):
-        self.tavily_client= TavilyClient()
+        self.tavily_client = TavilyClient()
         self.tavily_async_client = AsyncTavilyClient()
 
     @traceable
@@ -26,7 +26,7 @@ class TavilyService:
             For news searches, each result will include articles from the last `tavily_days` days.
             For general searches, the time range is unrestricted.
         """
-        
+
         search_tasks = []
         for query in search_queries:
             if tavily_topic == "news":
@@ -36,16 +36,13 @@ class TavilyService:
                         max_results=5,
                         include_raw_content=True,
                         topic="news",
-                        days=tavily_days
+                        days=tavily_days,
                     )
                 )
             else:
                 search_tasks.append(
                     self.tavily_async_client.search(
-                        query,
-                        max_results=5,
-                        include_raw_content=True,
-                        topic="general"
+                        query, max_results=5, include_raw_content=True, topic="general"
                     )
                 )
 
@@ -53,15 +50,14 @@ class TavilyService:
         search_docs = await asyncio.gather(*search_tasks)
 
         return search_docs
-    
 
     @traceable
     def tavily_search(self, query):
-        """ Search the web using the Tavily API.
-    
+        """Search the web using the Tavily API.
+
         Args:
             query (str): The search query to execute
-            
+
         Returns:
             dict: Tavily search response containing:
                 - results (list): List of search result dictionaries, each containing:
@@ -69,4 +65,4 @@ class TavilyService:
                     - url (str): URL of the search result
                     - content (str): Snippet/summary of the content
                     - raw_content (str): Full content of the page if available"""
-        return self.tavily_client.search(query,max_results=5, include_raw_content=True)
+        return self.tavily_client.search(query, max_results=5, include_raw_content=True)
