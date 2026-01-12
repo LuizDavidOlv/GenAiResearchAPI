@@ -56,7 +56,7 @@ class ResearchAgent:
         self.research_agent = builder.compile()
 
     def invoke_agent(self, research_brief: str):
-        result = self.deep_research_agent.invoke(
+        result = self.research_agent.invoke(
             {"researcher_messages": [HumanMessage(content=f"{research_brief}.")]}
         )
 

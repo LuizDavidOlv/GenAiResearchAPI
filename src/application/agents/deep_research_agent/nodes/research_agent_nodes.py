@@ -9,7 +9,7 @@ from langchain_core.messages import (
 )
 from typing_extensions import Literal
 
-from src.application.agents.deep_research_agent.prompts.prompts import (
+from application.agents.deep_research_agent.prompts.research_prompts import (
     compress_research_human_message,
     compress_research_system_prompt,
     research_agent_prompt,

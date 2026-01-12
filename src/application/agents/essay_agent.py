@@ -1,6 +1,6 @@
 import os
 
-from langchain.schema import HumanMessage, SystemMessage
+from langchain_core.messages import HumanMessage, SystemMessage
 from langgraph.graph import END, StateGraph
 from tavily import TavilyClient
 

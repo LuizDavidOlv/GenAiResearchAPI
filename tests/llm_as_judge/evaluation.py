@@ -1,10 +1,8 @@
 import os
 import uuid
 
+from application.agents.deep_research_agent.research_agent import DeepResearchAgent
 from langsmith import Client
-from application.agents.deep_research_agent.research_agent import (
-    DeepResearchAgent,
-)
 
 from tests.llm_as_judge.dataset import messages_should_continue, messages_should_stop
 
