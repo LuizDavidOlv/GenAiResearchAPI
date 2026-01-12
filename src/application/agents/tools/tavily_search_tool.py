@@ -10,6 +10,7 @@ from src.application.agents.deep_research_agent.prompts.prompts import (
     summarize_webpage_prompt,
 )
 from src.application.agents.deep_research_agent.states.researcher_state import Summary
+from src.application.utils.date_util import get_today_str
 
 
 class TavilySearchTool:
@@ -100,10 +101,6 @@ class TavilySearchTool:
 
         return unique_results
 
-    def get_today_str(self) -> str:
-        """Get current date in a human-readable format."""
-        return datetime.now().strftime("%a %b %-d, %Y")
-
     def summarize_webpage_content(self, webpage_content: str) -> str:
         """Summarize webpage content using the configured summarization model.
 
@@ -122,7 +119,7 @@ class TavilySearchTool:
                 [
                     HumanMessage(
                         content=summarize_webpage_prompt.format(
-                            webpage_content=webpage_content, date=self.get_today_str()
+                            webpage_content=webpage_content, date=get_today_str()
                         )
                     )
                 ]

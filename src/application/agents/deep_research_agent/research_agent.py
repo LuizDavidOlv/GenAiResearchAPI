@@ -2,10 +2,10 @@ from langchain.chat_models import init_chat_model
 from langchain_core.messages import HumanMessage
 from langgraph.graph import END, START, StateGraph
 
-from application.agents.tools.think_tool import ThinkTool
-from src.application.agents.deep_research_agent.nodes.agent_nodes import (
-    DeepResearchNodes,
+from application.agents.deep_research_agent.nodes.research_agent_nodes import (
+    ResearchAgentNodes,
 )
+from application.agents.tools.think_tool import ThinkTool
 from src.application.agents.deep_research_agent.states.researcher_state import (
     ResearcherOutputState,
     ResearcherState,
@@ -13,7 +13,7 @@ from src.application.agents.deep_research_agent.states.researcher_state import (
 from src.application.agents.tools.tavily_search_tool import TavilySearchTool
 
 
-class DeepResearchAgent:
+class ResearchAgent:
     def __init__(self):
         model = "anthropic:claude-sonnet-4-20250514"
         chat_model = init_chat_model(model=model)
@@ -30,7 +30,7 @@ class DeepResearchAgent:
 
         chat_model_with_tools = chat_model.bind_tools(tools)
 
-        nodes = DeepResearchNodes(
+        nodes = ResearchAgentNodes(
             chat_model_with_tools=chat_model_with_tools,
             tools_by_name=tools_by_name,
             compress_model=compress_model,
@@ -53,7 +53,7 @@ class DeepResearchAgent:
 
         builder.add_edge("tools_node", "llm_call")
         builder.add_edge("compressed_research", END)
-        self.deep_research_agent = builder.compile()
+        self.research_agent = builder.compile()
 
     def invoke_agent(self, research_brief: str):
         result = self.deep_research_agent.invoke(

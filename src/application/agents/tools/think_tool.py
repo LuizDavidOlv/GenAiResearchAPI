@@ -1,4 +1,4 @@
-from langchain_core.tools import InjectedToolArg, tool
+from langchain_core.tools import tool
 
 
 class ThinkTool:

@@ -19,7 +19,7 @@ from src.application.agents.deep_research_agent.states.researcher_state import (
 )
 
 
-class DeepResearchNodes:
+class ResearchAgentNodes:
     def __init__(
         self,
         model_with_tools: BaseChatModel,
